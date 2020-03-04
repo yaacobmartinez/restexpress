@@ -1,7 +1,7 @@
 const express = require('express')
 const mongoose = require('mongoose')
 
-const userSchema = new mongoose.Schema({
+const readUserSchema = new mongoose.Schema({
     // _id: Object,
     first_name:{
         type: String,
@@ -21,12 +21,6 @@ const userSchema = new mongoose.Schema({
         min: 8, 
         max: 30
     },
-    password:{
-        type: String,
-        required:true,
-        min: 6,
-        max:2048
-    },
     date_created:{
         type: Date,
         required: true,
@@ -35,4 +29,4 @@ const userSchema = new mongoose.Schema({
 })
 
 
-module.exports = mongoose.model('User', userSchema)
+module.exports = mongoose.model('User', readUserSchema)
