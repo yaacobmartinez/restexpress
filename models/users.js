@@ -1,74 +1,76 @@
 const express = require('express')
 const mongoose = require('mongoose')
 
-const userSchema = new mongoose.Schema({
-    // _id: Object,
-    first_name:{
+const authenticatedUser = new mongoose.Schema({
+    first_name : {
         type: String,
-        required:true,
+        required: [true, 'First Name is Required.'],
         min: 2, 
-        max: 2048
-    },
-    last_name:{
-        type: String,
-        required:true,
-        min: 2, 
-        max: 2048
-    },
-    username: {
-        type: String,
-        required:true,
-        min: 8, 
         max: 30
     },
-    password:{
+    last_name: {
         type: String,
-        required:true,
-        min: 6,
-        max:2048,
-        // select: false
+        required: [true, 'First Name is Required.'],
+        min: 2, 
+        max: 30
     },
-    date_created:{
+    username: {
+        type: String, 
+        required: [true, 'What should we call you?'],
+        min: [8, 'Username must be 8-15 characters long'],
+        max: [15, 'Username must be 8-15 characters long'],
+    },
+    password:{
+        type: String, 
+        required: [true, 'A password will make sure we can secure your account.'],
+        min: [8, 'Password must be 8-15 characters long'],
+        max: [15, 'Password must be 8-15 characters long'],
+    },
+    date_created: {
         type: Date,
-        required: true,
+        required: true, 
         default: Date.now
     }
 })
 
-const publicUserSchema = new mongoose.Schema({
-    // _id: Object,
-    first_name:{
+const unauthenticatedUser = new mongoose.Schema({
+    first_name : {
         type: String,
-        required:true,
+        required: [true, 'First Name is Required.'],
         min: 2, 
-        max: 2048
-    },
-    last_name:{
-        type: String,
-        required:true,
-        min: 2, 
-        max: 2048
-    },
-    username: {
-        type: String,
-        required:true,
-        min: 8, 
         max: 30
     },
-    password:{
+    last_name: {
         type: String,
-        required:true,
-        min: 6,
-        max:2048,
+        required: [true, 'First Name is Required.'],
+        min: 2, 
+        max: 30
+    },
+    username: {
+        type: String, 
+        required: [true, 'What should we call you?'],
+        min: [8, 'Username must be 8-15 characters long'],
+        max: [15, 'Username must be 8-15 characters long'],
+    },
+    password:{
+        type: String, 
+        required: [true, 'A password will make sure we can secure your account.'],
+        min: [8, 'Password must be 8-15 characters long'],
+        max: [15, 'Password must be 8-15 characters long'],
         select: false
     },
+    date_created: {
+        type: Date,
+        required: true, 
+        default: Date.now,
+        select: false
+    }
 })
 
-// For seeing all 
-const allUser = mongoose.model('User', userSchema, 'users')
-// For seeing limited
-const publicUsers = mongoose.model('Public', publicUserSchema, 'users')
-module.exports={
-    allUser:allUser, 
-    publicUsers:publicUsers
-};
+const authUser = mongoose.model('authUser', authenticatedUser, 'users' );
+const publicUser = mongoose.model('publicUser', unauthenticatedUser, 'users' );
+
+module.exports = {
+    authUser:authUser,
+    publicUser:publicUser
+}
