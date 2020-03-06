@@ -42,6 +42,11 @@ exports.deleteUser = async function(req, res){
 }
 
 exports.updateUser = async function(req, res){
+    const currentUser = await User.publicUser.findById(req.params.id)
+    const newUsername = await User.publicUser.findOne({username : req.body.username})
+    if(currentUser.username != req.body.username){
+        if(newUsername) return res.status(500).json({success:false, message: `Username ${req.body.username} already exists. Please try a different username`})
+    }
     if(req.body.first_name != null){ res.user.first_name = req.body.first_name }
     if(req.body.last_name != null){ res.user.last_name = req.body.last_name }
     if(req.body.username != null){ res.user.username = req.body.username }
