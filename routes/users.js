@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
-const UserController = require('./controllers/users')
-const JWTController = require('./controllers/jwt_controller')
+const UserController = require('../controllers/users')
+const JWTController = require('../controllers/jwt_controller')
 const verifyJWT = JWTController.verifyJWT
 
 router.get('/', verifyJWT, UserController.getAll)

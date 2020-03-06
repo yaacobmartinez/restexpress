@@ -1,7 +1,7 @@
 const express = require('express')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const User = require('../../models/users')
+const User = require('../models/users')
 
 exports.getAll = async function(req, res){
     try {
