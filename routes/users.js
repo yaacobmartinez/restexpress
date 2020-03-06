@@ -10,5 +10,5 @@ router.get('/:id', [verifyJWT, UserController.getUserById], UserController.getUs
 router.delete('/:id', [verifyJWT, UserController.getUserById], UserController.deleteUser)
 router.patch('/:id', [verifyJWT, UserController.getUserById], UserController.updateUser)
 router.post('/login', UserController.loginUser)
-
+router.get('/profile/me', verifyJWT, UserController.me)
 module.exports =  router

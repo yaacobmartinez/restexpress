@@ -65,6 +65,11 @@ exports.loginUser = async function(req, res){
     return res.json({success: true, message: `Login Successful`, token: token})
 }
 
+exports.me = async function(req, res){
+    const user = await User.publicUser.findById(res._id)
+    res.json(user)
+}
+
 exports.getUserById = async function(req, res, next){
     try {
      user = await User.publicUser.findById(req.params.id)
