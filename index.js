@@ -1,6 +1,5 @@
 const express = require('express')
 const app = express()
-const users = require('./routes/users')
 const port = process.env.PORT || 8000
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
@@ -14,5 +13,5 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // app.get('/', (req, res) => res.send('Hello World!'))
-app.use('/users', users);
+app.use(require('./routes'));
 app.listen(port, () => console.log(`App running on ${port}`))

@@ -2,11 +2,14 @@ const express = require('express')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const User = require('../models/users')
+const Activity = require('../models/activityLogs')
 
 exports.getAll = async function(req, res){
     try {
         const users = await User.publicUser.find()
+        setLog(res._id, 'Query Users', req.ip)
         res.json(users);
+        
     } catch (error) {
         res.status(500).json({message : error.message})
     }
@@ -23,18 +26,21 @@ exports.register = async function(req, res){
     })
     try {
         const newUser = await user.save()
+        setLog(newUser._id, `Registered New User`, req.ip)
         res.json({success: true, message: `User saved with id ${newUser._id}`})
     } catch (error) {
         res.status(500).json({success: false, message: error.message})
     }
 }
 exports.getUser = async function(req, res){
+    setLog(res._id, `Searched for User ${res.user.username}`)
     res.json(res.user)
 }
 
 exports.deleteUser = async function(req, res){
     try {
         await res.user.remove()
+        setLog(res._id, `Deleted User with Username ${res.user.username} and ID ${res.user._id}`, req.ip)
         res.json({success: true, message: `User ${res.user.username} Removed`})
     } catch (error) {
         res.status(500).json({success: false, message: error.message})
@@ -53,6 +59,7 @@ exports.updateUser = async function(req, res){
     if(req.body.password != null){ res.user.password = bcrypt.hashSync(req.body.password) }
     try {
         const updatedUser = await res.user.save();
+        setLog(res._id, `Update User with Username ${res.user.username} and ID ${res.user._id}`, req.ip)
         res.json({success: true, message: `User ${res.user.username} updated`})
     } catch (error) {
         res.json(500).json({success:false, message: `Uh oh, something wrong happened.`})
@@ -67,6 +74,7 @@ exports.loginUser = async function(req, res){
     if(!isCorrectPassword) return res.status(500).json({success: false, message: `Your password is invalid.`})
     
     const token = jwt.sign({id: user._id}, process.env.SECRET_KEY, {expiresIn : 86400})
+    setLog(user._id, 'User Login', req.ip)
     return res.json({success: true, message: `Login Successful`, token: token})
 }
 
@@ -84,4 +92,14 @@ exports.getUserById = async function(req, res, next){
     }
     res.user = user
     next()
+}
+
+async function setLog(userId, activity, userIp){
+    const log = new Activity({
+        user : userId,
+        IP : userIp,
+        object: `User`,
+        activity: activity
+    })
+    const recordLog = await log.save()
 }
