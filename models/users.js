@@ -5,26 +5,26 @@ const authenticatedUser = new mongoose.Schema({
     first_name : {
         type: String,
         required: [true, 'First Name is Required.'],
-        min: 2, 
-        max: 30
+        minlength: 2, 
+        maxlength: 30
     },
     last_name: {
         type: String,
         required: [true, 'First Name is Required.'],
-        min: 2, 
-        max: 30
+        minlength: 2, 
+        maxlength: 30
     },
     username: {
         type: String, 
         required: [true, 'What should we call you?'],
-        min: [8, 'Username must be 8-15 characters long'],
-        max: [15, 'Username must be 8-15 characters long'],
+        minlength: [8, 'Username must be 8-15 characters long'],
+        maxlength: [15, 'Username must be 8-15 characters long'],
     },
     password:{
         type: String, 
         required: [true, 'A password will make sure we can secure your account.'],
-        min: [8, 'Password must be 8-15 characters long'],
-        max: [15, 'Password must be 8-15 characters long'],
+        minlength: [8, 'Password must be 8-15 characters long'],
+        maxlength: [15, 'Password must be 8-15 characters long'],
     },
     date_created: {
         type: Date,
@@ -37,26 +37,26 @@ const unauthenticatedUser = new mongoose.Schema({
     first_name : {
         type: String,
         required: [true, 'First Name is Required.'],
-        min: 2, 
-        max: 30
+        minlength: 2, 
+        maxlength: 30
     },
     last_name: {
         type: String,
         required: [true, 'First Name is Required.'],
-        min: 2, 
-        max: 30
+        minlength: 2, 
+        maxlength: 30
     },
     username: {
         type: String, 
         required: [true, 'What should we call you?'],
-        min: [8, 'Username must be 8-15 characters long'],
-        max: [15, 'Username must be 8-15 characters long'],
+        minlength: [8, 'Username must be 8-15 characters long'],
+        maxlength: [15, 'Username must be 8-15 characters long'],
     },
     password:{
         type: String, 
         required: [true, 'A password will make sure we can secure your account.'],
-        min: [8, 'Password must be 8-15 characters long'],
-        max: [15, 'Password must be 8-15 characters long'],
+        minlength: [8, 'Password must be 8-15 characters long'],
+        maxlength: [15, 'Password must be 8-15 characters long'],
         select: false
     },
     date_created: {
